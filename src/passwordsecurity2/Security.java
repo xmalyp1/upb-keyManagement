@@ -8,19 +8,29 @@
 package passwordsecurity2;
 
 import java.nio.ByteBuffer;
+import java.security.MessageDigest;
 import java.security.SecureRandom;
 import java.util.Random;
 
 
 public class Security {
     
-    private static String hash(String password) throws Exception{  
+    protected static String hash(String password,long salt) throws Exception{  
         /*
         *   Pred samotnym hashovanim si najskor musite ulozit instanciu hashovacieho algoritmu.
         *   Hash sa uklada ako bitovy retazec, takze ho nasledne treba skonvertovat na String (napr. cez BigInteger);
         */
-        String hash = "";
-        return hash;
+    	
+   		 MessageDigest md = MessageDigest.getInstance("SHA-256");
+   		 md.update(password.getBytes("UTF-8"));
+   		 md.update(ByteBuffer.allocate(Long.SIZE / Byte.SIZE).putLong(salt).array());  
+   		 byte[] bytesOfHash = md.digest();
+   	     
+   	        StringBuffer hexaHash = new StringBuffer();
+   	    	for (int i=0;i<bytesOfHash.length;i++) {
+                   hexaHash.append(Integer.toHexString((bytesOfHash[i] & 0xFF) | 0x100));
+   	    	}
+   	    	return hexaHash.toString();
     }
     
     protected static long getSalt(long min, long max) {

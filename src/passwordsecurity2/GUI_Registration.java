@@ -11,7 +11,7 @@ public class GUI_Registration extends javax.swing.JFrame {
 
     /**
      * Creates new form GUI_Registration
-     */
+     */ 
     public GUI_Registration() {
         initComponents();
     }
@@ -28,7 +28,7 @@ public class GUI_Registration extends javax.swing.JFrame {
         jPasswordField1 = new javax.swing.JPasswordField();
         jLabel3 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel(); 
         jLabel4 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
         jPasswordField2 = new javax.swing.JPasswordField();

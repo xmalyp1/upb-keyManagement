@@ -29,6 +29,7 @@ public class GUI extends javax.swing.JFrame {
             }
         } else {
             System.err.println("Couldn't find file: TextSamplerDemoHelp.html");
+            
         }
     }
 

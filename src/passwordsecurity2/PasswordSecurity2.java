@@ -15,5 +15,5 @@ public class PasswordSecurity2 {
         okno.setResizable(false);
         okno.setLocationRelativeTo(null);
     }
-    
+     
 }

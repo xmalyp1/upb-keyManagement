@@ -29,7 +29,7 @@ public class Database {
         public String getSecond() {
             return second;
         }
-    }
+    }  
     
     protected static MyResult add(String fileName, String text) throws IOException{ 
         if(exist(fileName, text))
