@@ -9,20 +9,37 @@ package passwordsecurity2;
 
 import java.io.IOException;
 import java.util.StringTokenizer;
+import java.util.TimerTask;
+
+import com.sun.glass.ui.Timer;
+
 import passwordsecurity2.Database.MyResult;
 
 public class Login {
 	
-	private static long delay=100;
-    protected static MyResult prihlasovanie(String meno, String heslo) throws IOException, Exception{
+	private long delay;
+	private LoginLockThread llt;
+    
+	public Login(){
+    	this.delay=100;
+    	llt=null;
+    }
+	
+	protected MyResult prihlasovanie(String meno, String heslo) throws IOException, Exception{
         /*
         *   Delay je vhodne vytvorit este pred kontolou prihlasovacieho mena.
         */
+		if(llt!=null && llt.isAlive())
+			return new MyResult(false, "Nové heslo bolo zadané príliž rýchlo.");
+		
         MyResult account = Database.find("hesla.txt", meno);
         if (!account.getFirst()){
-        	Thread.sleep(delay);
-        	increaseDelay();
-            return new MyResult(false, "Nespravne meno.");
+        	if(llt==null || !llt.isAlive()){
+        		llt=new LoginLockThread();
+        		llt.start();
+        		increaseDelay();
+        	}
+        	return new MyResult(false, "Nespravne meno.");
         }
         else {
             StringTokenizer st = new StringTokenizer(account.getSecond(), ":");
@@ -36,15 +53,37 @@ public class Login {
             String calculatedHash=Security.hash(heslo, Long.parseLong(salt));
             boolean rightPassword = hashFromDb.equals(calculatedHash);
             if (!rightPassword){
-            	Thread.sleep(delay);
-            	increaseDelay();
+            	if(llt==null || !llt.isAlive()){
+            		llt=new LoginLockThread();
+            		llt.start();
+            		increaseDelay();
+            	}
                 return new MyResult(false, "Nespravne heslo.");
             }
          } 
         return new MyResult(true, "Uspesne prihlasenie.");
     }
     
-    private static void increaseDelay(){
+    private void increaseDelay(){
     	delay+=100;
     }
+    
+   private class LoginLockThread extends Thread {
+
+	@Override
+	public void run() {
+		System.out.println("LoginLockThread will sleep for "+delay+" millis.");
+		try {
+			Thread.sleep(delay);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		super.run();
+	}
+	   
+   }
+    
+
 }
+

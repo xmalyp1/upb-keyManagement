@@ -4,20 +4,23 @@ import java.awt.Dimension;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javax.swing.JEditorPane;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
+
 import passwordsecurity2.Database.MyResult;
 
 
 public class GUI extends javax.swing.JFrame {
-
+	private Login login;
 	
     /**
      * Creates new form GUI
      */
     public GUI() {
+    	login=new Login();
         initComponents();
         jEditorPane1.setEditable(false);
         jEditorPane1.setContentType("text/html;charset=UTF-8");
@@ -294,7 +297,7 @@ public class GUI extends javax.swing.JFrame {
         jPasswordField2.setText(null);
                 }
                 else {
-                MyResult result = Login.prihlasovanie(jTextField1.getText(), String.valueOf(jPasswordField2.getPassword()));
+                MyResult result = login.prihlasovanie(jTextField1.getText(), String.valueOf(jPasswordField2.getPassword()));
                 JOptionPane.showMessageDialog(rootPane, result.getSecond());
                 if (result.getFirst() == true){
                     jTextField1.setText(null);
