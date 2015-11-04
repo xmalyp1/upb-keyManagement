@@ -13,6 +13,7 @@ import passwordsecurity2.Database.MyResult;
 
 public class GUI extends javax.swing.JFrame {
 
+	
     /**
      * Creates new form GUI
      */
