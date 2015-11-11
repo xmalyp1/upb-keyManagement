@@ -6,7 +6,16 @@
 //////////////////////////////////////////////////////////////////////////
 package passwordsecurity2;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.Dictionary;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -14,8 +23,16 @@ import passwordsecurity2.Database.MyResult;
 
 
 public class Registration {
-	private Security security;
-    protected static MyResult registracia(String meno, String heslo) throws NoSuchAlgorithmException, Exception{
+	private static final String PASS_PATH="pass_dict.txt";
+//	private Security security;
+	private List<String> passwordDictionary;
+	
+	public Registration(){
+		passwordDictionary=new ArrayList<String>();
+		loadDictionary();
+	}
+	
+    protected MyResult registracia(String meno, String heslo) throws NoSuchAlgorithmException, Exception{
         if(!isValidPassword(heslo)){
         	System.out.println("Not valid password!");
         	return new MyResult(false,"Heslo nie je bezpecne. Musí obsahovať aspoň 1 číslicu, veľké a malé písmeno a dľžka hesla musí byť vačšia ako 4");
@@ -49,11 +66,29 @@ public class Registration {
      * @param password
      * @return
      */
-    private static boolean isValidPassword(String password){
+    private boolean isValidPassword(String password){
+    	
+    	if(passwordDictionary.contains(password.toLowerCase())){
+    		System.out.println("Found in dictionary");
+    		return false;
+    	}
+    	
     	//TODO Need to be tested
     	final String REGEX="^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)\\S{5,}$";
     	Pattern p = Pattern.compile(REGEX);
     	return p.matcher(password).matches();    	
+    }
+    
+    private void loadDictionary(){
+    	try(BufferedReader br = new BufferedReader(new FileReader(PASS_PATH))) {
+    	    String line = br.readLine();
+    	    while (line != null) {
+    	    	passwordDictionary.add(line);
+    	        line = br.readLine();
+    	    }
+    	} catch (IOException e) {
+			passwordDictionary=null;
+		}
     }
     
 }

@@ -123,9 +123,10 @@ public class GUI_Registration extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void Registracia(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Registracia
-        try {
+    	Registration reg=new Registration();
+    	try {
                 if (Arrays.equals(jPasswordField3.getPassword(), jPasswordField2.getPassword())){
-                    MyResult tmp = Registration.registracia(jTextField1.getText(), String.valueOf(jPasswordField2.getPassword()));
+                    MyResult tmp = reg.registracia(jTextField1.getText(), String.valueOf(jPasswordField2.getPassword()));
                     if (!tmp.getFirst())
                         JOptionPane.showMessageDialog(rootPane, tmp.getSecond());
                     else
