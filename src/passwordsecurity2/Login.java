@@ -17,6 +17,7 @@ import passwordsecurity2.Database.MyResult;
 
 public class Login {
 	
+	private static final long DELAY_VALUE=500;
 	private long delay;
 	private LoginLockThread llt;
     
@@ -61,11 +62,16 @@ public class Login {
                 return new MyResult(false, "Nespravne heslo.");
             }
          } 
+        successLogin();
         return new MyResult(true, "Uspesne prihlasenie.");
     }
     
     private void increaseDelay(){
-    	delay+=100;
+    	delay+=DELAY_VALUE;
+    }
+    
+    private void successLogin(){
+    	delay=100;
     }
     
    private class LoginLockThread extends Thread {

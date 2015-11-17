@@ -22,8 +22,9 @@ public class Security {
         */
     	
    		 MessageDigest md = MessageDigest.getInstance("SHA-256");
+   		 password=Long.toString(salt)+password;
    		 md.update(password.getBytes("UTF-8"));
-   		 md.update(ByteBuffer.allocate(Long.SIZE / Byte.SIZE).putLong(salt).array());  
+   		// md.update(ByteBuffer.allocate(Long.SIZE / Byte.SIZE).putLong(salt).array());  
    		 byte[] bytesOfHash = md.digest();
    	     
    	        StringBuffer hexaHash = new StringBuffer();
