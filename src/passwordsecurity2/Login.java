@@ -78,13 +78,15 @@ public class Login {
 
 	@Override
 	public void run() {
-		System.out.println("LoginLockThread will sleep for "+delay+" millis.");
+		long start=System.currentTimeMillis();
 		try {
 			Thread.sleep(delay);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		long end=System.currentTimeMillis();
+		System.out.println("The login was locked for "+ (double)(end-start)/1000 +" seconds");
 		super.run();
 	}
 	   

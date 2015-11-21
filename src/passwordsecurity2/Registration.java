@@ -35,7 +35,7 @@ public class Registration {
     protected MyResult registracia(String meno, String heslo) throws NoSuchAlgorithmException, Exception{
         if(!isValidPassword(heslo)){
         	System.out.println("Not valid password!");
-        	return new MyResult(false,"Heslo nie je bezpecne. Musí obsahovať aspoň 1 číslicu, veľké a malé písmeno a dľžka hesla musí byť vačšia ako 4");
+        	return new MyResult(false,"Heslo nie je bezpecne.Musí obsahovať aspoň 1 číslicu,veľké a male písmeno a dĺžka hesla musí byť väčšia ako 7!");
         	
         }
     	if (Database.exist("hesla.txt", meno)){
@@ -60,7 +60,7 @@ public class Registration {
      *(?=.*[A-Z])        // use positive look ahead to see if at least one upper case letter exists
      *(?=.*\d)           // use positive look ahead to see if at least one digit exists
      *\S      			 // use to check if it does not contain white spaces
-     *{5,0}				 // use to check if the length is greater than 4
+     *{8,0}				 // use to check if the length is greater than 8
      *.+                 // gobble up the entire string
      *$                  // the end of the string
      * @param password
@@ -69,12 +69,12 @@ public class Registration {
     private boolean isValidPassword(String password){
     	
     	if(passwordDictionary.contains(password.toLowerCase())){
-    		System.out.println("Found in dictionary");
+    		System.out.println("The password was found in dictionary");
     		return false;
     	}
     	
     	//TODO Need to be tested
-    	final String REGEX="^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)\\S{5,}$";
+    	final String REGEX="^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)\\S{8,}$";
     	Pattern p = Pattern.compile(REGEX);
     	return p.matcher(password).matches();    	
     }

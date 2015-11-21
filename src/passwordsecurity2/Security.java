@@ -38,11 +38,14 @@ public class Security {
         /*
         *   Salt treba generovat cez secure funkciu.
         */
+    	long saltValue=min-1;
     	final Random r = new SecureRandom();
-    	byte[] salt = new byte[32];
-    	r.nextBytes(salt);
-        long saltValue = ByteBuffer.wrap(salt).getLong();
-        System.out.println(saltValue);
+    	while(saltValue<min || saltValue > max)
+    		saltValue=r.nextLong();
+    	/* funkcia nextLong nema metodu umoznujucu ohranicenie...
+    	   mohli by sme vyuûiù  nextInt ale to by sme nemuseli vyuûiù cel˝ rozsah LONG
+        */
+    	System.out.println(saltValue);
         return saltValue;
     }
 }

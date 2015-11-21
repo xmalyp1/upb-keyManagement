@@ -38,3 +38,7 @@ milacik
 monika
 marek
 janka
+1Heslo
+Heslo1
+1Password
+Password1
